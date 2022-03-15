@@ -19,22 +19,6 @@ use yii\helpers\Html;
 }
     
 </style>
-<div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-      <?php if (Yii::$app->session->getFlash('error') !== NULL){ ?>
-
-            <div class="alert alert-danger"><?=  Yii::$app->session->getFlash('error'); ?></div>
-
-            <?php } ?>
-            <?php if (Yii::$app->session->getFlash('success') !== NULL){ ?>
-
-            <div class="alert alert-success"><?=  Yii::$app->session->getFlash('success'); ?></div>
-
-            <?php } ?>
-    </div>
-    <div class="col-md-3"></div>
-</div>
 <div class="container" id="login-wrapper">
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4">

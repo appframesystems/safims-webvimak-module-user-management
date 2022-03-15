@@ -292,58 +292,44 @@ class AuthController extends BaseController
       $model = new LoginForm();
       $username=Yii::$app->getUser()->identity->username;
          $connection = \Yii::$app->db1;
-                   //var_dump($username);  exit;
-                    // var_dump($code);  exit;
-                     //check if company exist AND $model->login()
-                    //$sql="select * from clients where code=001";
+          
                     $connection = \Yii::$app->db1;
-                   //var_dump($connection);  exit;
                     $users = $connection
                     ->createCommand('SELECT * FROM clients where code=:code')
                     ->bindValues([':code' =>$code])
                     ->queryOne();
                    
-                     //var_dump($users);  exit;
                     if($users){
-                      //echo 7;  exit;  
-                       // echo 677; exit;
+                     
                     //set sessions for client db
                     //register connection info in session, these info are retrived before application run
-                   $dns='mysql:host='.$users['host'].';dbname='.$users['dbname'];
+                    $dns='mysql:host='.$users['host'].';port='.$users['port'].';dbname='.$users['dbname'];
                   // var_dump($dns);  exit;
                    Yii::$app->session->set('custorem_connection.dns', $dns);
                    Yii::$app->session->set('custorem_connection.username', $users['dbuser']);
                    Yii::$app->session->set('custorem_connection.password', $users['dbpassword']);
 
-                   //return  $this->redirect(array('login2'));
-                        
+                      
                    
                     }
                     else{
-                     // echo 5;  exit;
-                        //client does not exit
+                   
                        Yii::$app->session->set('companystatus', 1);
                         return  $this->redirect(array('login'));
                     }   
-                    //echo 1;  exit;
-                    
+                  
                     $model->username=$username;
-                  // var_dump($model);  exit;
                     if($model->login()){
-                     // echo 1; exit;
                     $USERMODEL= new \frontend\models\User();
                      $user=$USERMODEL->find()->where(['id'=>Yii::$app->getUser()->identity->id])->one();
                      $user->loggedin=1;
-                     //$user->active_status=1;
                    $settings=90;
                     $user->passexpirydate=date('Y-m-d', strtotime("+$settings days"));
-                    //$model2->save(FALSE);
-                     //date_default_timezone_set('Africa/Nairobi');
+                  
                      $user->lastloggedin=date('Y-m-d H:i:s');
                      
                      $user->update(false);
-                    //check if first time login
-                    
+                  
                     if(Yii::$app->getUser()->identity->firstlogin==1){
                        // echo 3;  exit;  
                       return $this->redirect(['change-own-password']);   
@@ -359,9 +345,7 @@ class AuthController extends BaseController
                         }
                         else{
                            echo 4;  exit;
-                            //destroy session
-                          // Yii::$app->session->destroy('companystatus');
-                          if($user->supplier==1){  
+                              if($user->supplier==1){  
                          return  $this->redirect(array('/site/index2'));
                           }else{
                           return  $this->redirect(array('/site/index1'));    
@@ -394,48 +378,34 @@ public function actionLogin()
 		{
                     $connection = \Yii::$app->db1;
                     $username=$model->username;
-                   // var_dump($connection);  exit;
-                    //query code using username in tb user
+                
                     $user= $connection
                     ->createCommand('SELECT * FROM user where username=:username')
                     ->bindValues([':username' =>$username])
                     ->queryOne();
-                   // var_dump($user);  exit;
+                   
                     if($user){
                         $code=$user['branch'];
                     }else{
                     $code=Null;
-                    }
-                    
-                     //check if company exist AND $model->login()
-                    //$sql="select * from clients where code=001";
+                    }   
                     $connection = \Yii::$app->db1;
-                   //var_dump($connection);  exit;
                     $users = $connection
                     ->createCommand('SELECT * FROM clients where code=:code')
                     ->bindValues([':code' =>$code])
                     ->queryOne();
                    
-                     //var_dump($users);  exit;
                     if($users){
-                     //  echo 2;  exit;  
-                       // echo 677; exit;
-                    //set sessions for client db
-                    //register connection info in session, these info are retrived before application run
-                   $dns='mysql:host='.$users['host'].';dbname='.$users['dbname'];
-                  // var_dump($dns);  exit;
+                     
+                  $dns='mysql:host='.$users['host'].';port='.$users['port'].';dbname='.$users['dbname'];
+                 
                    Yii::$app->session->set('custorem_connection.dns', $dns);
                    Yii::$app->session->set('custorem_connection.username', $users['dbuser']);
                    Yii::$app->session->set('custorem_connection.password', $users['dbpassword']);
 
-                   //return  $this->redirect(array('login2'));
-                        
-                   
                     }
                     else{
-                       // echo 1;  exit;
-                        //client does not exit
-                       Yii::$app->session->set('companystatus', 1);
+                      Yii::$app->session->setFlash('error', 'Username & password Not Found.');
                         return  $this->redirect(array('login'));
                     }  
                     if($model->login()){
@@ -445,12 +415,9 @@ public function actionLogin()
                      $user->active_status=1;
                    $settings=90;
                     $user->passexpirydate=date('Y-m-d', strtotime("+$settings days"));
-                    //$model2->save(FALSE);
-                     //date_default_timezone_set('Africa/Nairobi');
-                     $user->lastloggedin=date('Y-m-d H:i:s');
+                    $user->lastloggedin=date('Y-m-d H:i:s');
                      
                      $user->update(false);
-                    //check if first time login
                     
                     if(Yii::$app->getUser()->identity->firstlogin==1){
                      
@@ -466,10 +433,7 @@ public function actionLogin()
                          return $this->redirect(['/user-management/auth/change-own-password']);   
                         }
                         else{
-                          // echo 1;  exit;
-                            //destroy session
-                          // Yii::$app->session->destroy('companystatus');
-                           if($user->user_type==2){  
+                       if($user->user_type==2){  
                          
                          return  $this->redirect(array('/site/client'));
                           }
@@ -579,10 +543,9 @@ public function actionLogout()
 		if ( $model->load(Yii::$app->request->post()) AND $model->changePassword() )
 		{
                  $sql='UPDATE user SET password_hash="'.$user->password_hash.'" WHERE username="'.$user->username.'"';
-                 // var_dump($sql);  exit;
+                
                  \Yii::$app->db1->createCommand($sql)->execute();
-                  // Yii::$app->session->setFlash('success', 'Password changed Successfully.');    
-                     // var_dump($user->dash_status);  exit;
+           
                           if($user->user_type==2){  
                          return  $this->redirect(array('/site/client'));
                           }
@@ -591,7 +554,7 @@ public function actionLogout()
                           }else{
                           return  $this->redirect(array('/site/index1'));    
                           } 
-			//return $this->renderIsAjax('changeOwnPasswordSuccess');
+
 		}
                
 
