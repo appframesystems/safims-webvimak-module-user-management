@@ -65,6 +65,18 @@ public function behaviors()
             'model'=>$model
         ]);
     }    
+  public function actionDelete($id)
+	{
+         $model = new User();
+         $model=$model->find()->where(['id'=>$id])->one();
+          if($model){
+           $sql="DELETE from user where username='".$model['username']."'"; 
+            \Yii::$app->db1->createCommand($sql)->execute();
+            $model->delete();
+             Yii::$app->session->setFlash('success', 'Supplier User deleted successfully');
+             return $this->redirect(['suppliers']); 
+          }
+    }    
  
 
 	public function actionCreate()
@@ -750,7 +762,7 @@ public function behaviors()
               if($model){
             if($model->delete()){
            $sql = 'Delete user  WHERE id='.$id.'';
-           // var_dump( $sql);  exit;
+ 
            \Yii::$app->db1->createCommand($sql)->execute();
             Yii::$app->session->setFlash('success', 'User removed successfully');
            return $this->redirect(['suppliers']);

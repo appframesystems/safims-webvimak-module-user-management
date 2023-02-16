@@ -39,13 +39,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <table class="table table-striped table-bordered table-hover dataTables-example" id="data">
              <thead>
                     <tr>
-                    
+                          <th>Action</th>
                        <th>Client Name</th>
                        <th>Supplier Name</th>
                        <th>Created Date</th>
                        <th>Last Loggedin</th>
                         <th>Profile Picture</th>
-                       <th>Action</th>
+                    
                      
                        
                    
@@ -54,7 +54,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     <tbody>
                <?php foreach ($model as $model){?>
                 <tr class="gradeX">
-                   
+                           
+                        <td>  
+                      <?= Html::a('Edit/Update', ['update','id'=>$model['id']], ['class'=>'btn btn-primary btn-xs']) ?> 
+                         <?= Html::a('Delete', ['delete','id'=>$model['id']], ['class'=>'btn btn-danger btn-xs']) ?> 
+                    
+                        </td>
                         <td><?= $model['username'] ?></td>
                         <?php
                     $modelsupplier= new frontend\models\Supplier(); 
@@ -71,10 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <td><?= $model['lastloggedin'] ?></td>
                         
                         <td><?= $model['profilepic'] ?></td>
-                       
-                        <td>  
-                      <?= Html::a('Edit/Update', ['update','id'=>$model['id']], ['class'=>'btn btn-primary btn-xs']) ?> 
-                        </td>
+                   
                        
                         
                        

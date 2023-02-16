@@ -17,7 +17,7 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<link rel="shortcut icon" href="<?php echo Yii::$app->request->baseUrl; ?>/uploads/sahihi2.jpeg" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo Yii::$app->request->baseUrl; ?>/images/FIDA.png" type="image/x-icon" />
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
@@ -42,7 +42,7 @@ AppAsset::register($this);
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element"> <span>
-                           <?= Html::img('@web/inspiniaassests/img/nmb.png', ['alt'=>'SAFIMS', 'class'=>'img-circle']);?>
+                           <?= Html::img('@web/inspiniaassests/img/nmb.png', ['alt'=>'FIDA KENYA', 'class'=>'img-circle']);?>
                              </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">
@@ -100,13 +100,38 @@ AppAsset::register($this);
                    
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <span style="color: #f26f21;" class="m-r-sm text-muted welcome-message">Welcome to  SAFIMS</span>
+                    <span style="color: #f26f21;" class="m-r-sm text-muted welcome-message">Welcome to  SMART HR</span>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="fa fa-briefcase"></i>  <span class="label label-warning"></span>
                     </a>
-                 
+                    <ul class="dropdown-menu dropdown-messages">
+                
+                        
+                     
+                        <li>
+                            <a href="#">
+                            <div class="dropdown-messages-box">
+<!--                                <a href="profile.html" class="pull-left">
+                                    <img alt="image" class="img-circle" src="img/a7.jpg">
+                                </a>-->
+                                <div class="media-body">
+                                  
+                                </div>
+                            </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                     
+                        <li>
+                            <div class="text-center link-block">
+                                <a href="#">
+                                    <i class="fa fa-envelope"></i> <strong>View all Cases</strong>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -149,7 +174,14 @@ AppAsset::register($this);
 
              
             </div>
-
+<!--            <div class="footer">
+                <div class="pull-right">
+                    10GB of <strong>250GB</strong> Free.
+                </div>
+                <div>
+                    <strong>Copyright</strong> Example Company &copy; 2014-2017
+                </div>
+            </div>-->
 
         </div>
         </div>
@@ -161,7 +193,9 @@ yii\bootstrap\Modal::begin([
     'headerOptions' => ['id' => 'modalHeader'],
     'id' => 'modal',
     'size' => 'modal-lg',
-    
+    //keeps from closing modal with esc key or by clicking out of the modal.
+    // user must click cancel or X to close
+    //'clientOptions' => ['backdrop' => 'static', 'keyboard' => FALSE]
 ]);
 
 echo "<div id='modalContent'><div style='text-align:center'><img src='/esbportal/712.gif'></div></div>";
@@ -177,18 +211,35 @@ yii\bootstrap\Modal::end();
 <script>
         $(document).ready(function() {
             
-             setTimeout(function() {
+          //$("body").addClass("md-skin  fixed-sidebar ");
+            
+            setTimeout(function() {
                 toastr.options = {
                     closeButton: true,
                     progressBar: true,
                     showMethod: 'slideDown',
                     timeOut: 4000
                 };
-                toastr.success('MANAGEMENT SYSTEM', 'SAFIMS');
+                toastr.success('MANAGEMENT SYSTEM', 'SMART HR');
 
             }, 1300);
 
 
+           
+
+           // $('.footable').footable();
+           // $('.footable2').footable();
+
+       
+
+
+            //var ctx4 = document.getElementById("doughnutChart").getContext("2d");
+           // new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
+
+         
+
+           // var ctx4 = document.getElementById("doughnutChart2").getContext("2d");
+           // new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
 
         });
     </script>
