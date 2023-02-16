@@ -41,7 +41,7 @@ use yii\helpers\Html;
 			<div class="panel panel-default">
 				<div class="panel-heading">
                                     
-                                    <h3 style="text-align: center; color: #77267C;" class="panel-title"><?= UserManagementModule::t('front', 'SAHIHI FINANCIAL MANAGEMENT SYSTEM') ?></h3>
+                                    <h3 style="text-align: center; color: #77267C;" class="panel-title"><?= UserManagementModule::t('front', 'SAFIMS') ?></h3>
                                         <img style="margin-left: 20%;margin-top: 10px;height:100px;width:200px"  src="<?= Yii::$app->getUrlManager()->getBaseUrl().'/uploads/photos/sahihi_logo.png'?>"/>
                                 </div>
 				<div class="panel-body">
