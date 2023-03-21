@@ -65,8 +65,7 @@ class AuthController extends BaseController
             $postData=file_get_contents('php://input');
             
           $jdata=json_decode($postData,true);
-            //var_dump($jdata); exit;
-        
+          
         $model= new \frontend\models\Mpesapayments();
         
         $model->validatetransaction($jdata['orderID']);
@@ -99,21 +98,17 @@ class AuthController extends BaseController
       $model = new LoginForm();
       $username=Yii::$app->getUser()->identity->username;
          $connection = \Yii::$app->db1;
-                   //var_dump($username);  exit;
-                    // var_dump($code);  exit;
-                     //check if company exist AND $model->login()
-                    //$sql="select * from clients where code=001";
+
                     $connection = \Yii::$app->db1;
-                   //var_dump($connection);  exit;
+                 
                     $users = $connection
                     ->createCommand('SELECT * FROM clients where code=:code')
                     ->bindValues([':code' =>$code])
                     ->queryOne();
                    
-                     //var_dump($users);  exit;
+                   
                     if($users){
-                      //echo 7;  exit;  
-                       // echo 677; exit;
+                  
                     //set sessions for client db
                     //register connection info in session, these info are retrived before application run
                    $dns='mysql:host='.$users['host'].';dbname='.$users['dbname'];
@@ -127,21 +122,21 @@ class AuthController extends BaseController
                    
                     }
                     else{
-                     // echo 5;  exit;
+                   
                         //client does not exit
                        Yii::$app->session->set('companystatus', 1);
                         return  $this->redirect(array('login'));
                     }   
-                    //echo 1;  exit;
+                 
                     
                     $model->username=$username;
-                  // var_dump($model);  exit;
+               
                     if($model->login()){
-                     // echo 1; exit;
+                    
                     $USERMODEL= new \frontend\models\User();
                      $user=$USERMODEL->find()->where(['id'=>Yii::$app->getUser()->identity->id])->one();
                      $user->loggedin=1;
-                     //$user->active_status=1;
+                  
                    $settings=90;
                     $user->passexpirydate=date('Y-m-d', strtotime("+$settings days"));
                     //$model2->save(FALSE);
@@ -179,7 +174,7 @@ class AuthController extends BaseController
                         
 			return $this->goBack();
       
-    // var_dump($id);  exit;
+   
      
  }
 public function actionLogin()
