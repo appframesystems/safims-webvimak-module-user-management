@@ -40,7 +40,11 @@ use yii\widgets\DetailView;
                 <div class="col-md-6">
 
                     <div class="profile-image">
+                        <?php     if($model->profilepic && @getimagesize($model->profilepic)){ ?>
                         <img src="<?=Yii::$app->getUrlManager()->getBaseUrl().'/'.$model->profilepic?>" class="img-circle circle-border m-b-md" alt="profile">
+                      <?php }else {  ?>
+                        <img src="<?=Yii::$app->getUrlManager()->getBaseUrl().'/profile/images2.jpg'?>" class="img-circle circle-border m-b-md" alt="profile">
+                    <?php } ?>
                     </div>
                     <div class="profile-info">
                         <div class="">
