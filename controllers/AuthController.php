@@ -116,9 +116,7 @@ class AuthController extends BaseController
                    Yii::$app->session->set('custorem_connection.dns', $dns);
                    Yii::$app->session->set('custorem_connection.username', $users['dbuser']);
                    Yii::$app->session->set('custorem_connection.password', $users['dbpassword']);
-
-                   //return  $this->redirect(array('login2'));
-                        
+        
                    
                     }
                     else{
@@ -139,20 +137,16 @@ class AuthController extends BaseController
                   
                    $settings=90;
                     $user->passexpirydate=date('Y-m-d', strtotime("+$settings days"));
-                    //$model2->save(FALSE);
-                     //date_default_timezone_set('Africa/Nairobi');
-                     $user->lastloggedin=date('Y-m-d H:i:s');
+                      $user->lastloggedin=date('Y-m-d H:i:s');
                      
                      $user->update(false);
-                    //check if first time login
-                    
+                     
                     if(Yii::$app->getUser()->identity->firstlogin==1){
-                       // echo 3;  exit;  
+
                       return $this->redirect(['change-own-password']);   
                         
                       }
-                      // echo 2;  exit;  
-                      //  check if user password have expired
+         
                         $curdate=strtotime(date('Y-m-d'));
                         $mydate=strtotime(Yii::$app->getUser()->identity->passexpirydate);
                         if($curdate>=$mydate){
@@ -161,8 +155,7 @@ class AuthController extends BaseController
                         }
                         else{
                            echo 4;  exit;
-                            //destroy session
-                          // Yii::$app->session->destroy('companystatus');
+ 
                           if($user->supplier==1){  
                          return  $this->redirect(array('/site/index2'));
                           }else{
@@ -196,32 +189,25 @@ public function actionLogin()
 		{
                     $connection = \Yii::$app->db1;
                     $username=$model->username;
-                   // ($connection);  exit;
-                    //query code using username in tb user
                     $user= $connection
                     ->createCommand('SELECT * FROM user where username=:username')
                     ->bindValues([':username' =>$username])
                     ->queryOne();
-                   // ($user);  exit;
                     if($user){
                         $code=$user['branch'];
                     }else{
                     $code=Null;
                     }
                     
-                     //check if company exist AND $model->login()
-                    //$sql="select * from clients where code=001";
+                 
                     $connection = \Yii::$app->db1;
-                   //($connection);  exit;
                     $users = $connection
                     ->createCommand('SELECT * FROM clients where code=:code')
                     ->bindValues([':code' =>$code])
                     ->queryOne();
-                   
-                     //($users);  exit;
+               
                     if($users){
-                     //  echo 2;  exit;  
-                       // echo 677; exit;
+                    
                     //set sessions for client db
                     //register connection info in session, these info are retrived before application run
                    $dns='mysql:host='.$users['host'].';dbname='.$users['dbname'];
@@ -230,14 +216,9 @@ public function actionLogin()
                    Yii::$app->session->set('custorem_connection.username', $users['dbuser']);
                    Yii::$app->session->set('custorem_connection.password', $users['dbpassword']);
 
-                   //return  $this->redirect(array('login2'));
-                        
-                   
                     }
                     else{
-                       // echo 1;  exit;
-                        //client does not exit
-                     //  Yii::$app->session->set('companystatus', 1);
+                     
                         
                          Yii::$app->session->setFlash('error', 'User Credentials Invalid');  
                         return  $this->redirect(array('login'));
@@ -247,10 +228,8 @@ public function actionLogin()
                      $user=$USERMODEL->find()->where(['id'=>Yii::$app->getUser()->identity->id])->one();
                      $user->loggedin=1;
                      $user->active_status=1;
-                   $settings=90;
-                    $user->passexpirydate=date('Y-m-d', strtotime("+$settings days"));
-                    //$model2->save(FALSE);
-                     //date_default_timezone_set('Africa/Nairobi');
+                     $settings=90;
+                     $user->passexpirydate=date('Y-m-d', strtotime("+$settings days"));
                      $user->lastloggedin=date('Y-m-d H:i:s');
                      
                      $user->update(false);
@@ -270,9 +249,7 @@ public function actionLogin()
                          return $this->redirect(['/user-management/auth/change-own-password']);   
                         }
                         else{
-                          // echo 1;  exit;
-                            //destroy session
-                          // Yii::$app->session->destroy('companystatus');
+
                            if($user->user_type==2){  
                          
                          return  $this->redirect(array('/site/client'));
@@ -304,9 +281,7 @@ public function actionLogout()
          
              $usermodel= new \frontend\models\User();
                   $user=$usermodel->find()->where(['id'=>Yii::$app->getUser()->identity->id])->one();
-                  //($user);  exit;
                   if($user){
-                   //  echo 1;  exit;
                       $user->active_status=0;
                       $user->save(FALSE);
                   }
@@ -340,7 +315,6 @@ public function actionLogout()
             $model= $model->find()->where(['id'=>$id])->one();
           
             $model->loggedin=0;
-            //$model->USER_MACHINE='';
             if($model->save(false)){
                  Yii::$app->session->setFlash('success', 'User logged out Successfully.');
                   return $this->redirect(['forcelogout']);  
@@ -386,10 +360,7 @@ public function actionLogout()
 		if ( $model->load(Yii::$app->request->post()) AND $model->changePassword() )
 		{
                  $sql='UPDATE user SET password_hash="'.$user->password_hash.'" WHERE username="'.$user->username.'"';
-                 // ($sql);  exit;
                  \Yii::$app->db1->createCommand($sql)->execute();
-                  // Yii::$app->session->setFlash('success', 'Password changed Successfully.');    
-                     // ($user->dash_status);  exit;
                           if($user->user_type==2){  
                          return  $this->redirect(array('/site/client'));
                           }
@@ -398,7 +369,7 @@ public function actionLogout()
                           }else{
                           return  $this->redirect(array('/site/index1'));    
                           } 
-			//return $this->renderIsAjax('changeOwnPasswordSuccess');
+			
 		}
                
 
