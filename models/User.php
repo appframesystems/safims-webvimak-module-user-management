@@ -473,9 +473,9 @@ class User extends UserIdentity
                
         
             $model= new \frontend\models\Tbtransactions();
-            //var_dump($phone);  exit;
+            //($phone);  exit;
             $token= $model->gettoken();
-           // var_dump($token);  exit;
+           // ($token);  exit;
             $url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
              //$id=Yii::$app->user->identity->mobile_no;
             $curl = curl_init();
@@ -486,7 +486,7 @@ class User extends UserIdentity
             $timestamp=date('YmdHms');
             $data="177587a195bd03e97e8ee85995e37b536dcdfb86816fa4d96511c06dc25a0ebf7261a9$timestamp";
             $pass=base64_encode($data);
-             //var_dump($amount);exit;
+             //($amount);exit;
             $curl_post_data = array(
               //Fill in the request parameters with valid values
               'BusinessShortCode' => '177587',
@@ -511,7 +511,7 @@ class User extends UserIdentity
 
             $curl_response = curl_exec($curl);
            // print_r($curl_response);
-            // var_dump($curl_response);exit;
+            // ($curl_response);exit;
             return $curl_response;
             
             
