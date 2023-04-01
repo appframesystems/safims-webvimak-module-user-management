@@ -128,8 +128,10 @@ public function behaviors()
                      $employee= $employee->find()->where(['employee_id'=>$employeeid])->one();
                      if($employee){
                          $fullnames=$employee['name'];
+                         $phone = $employee['phone'];
                      }else{
-                     $fullnames='undefined';    
+                     $fullnames='undefined'; 
+                     $phone = 0;     
                      }
                  
                    // ($users);   exit;
@@ -157,7 +159,12 @@ public function behaviors()
                         $setting= $generalsettigs->find()->where(['name'=>'PASS_EXPIRY'])->one();
                         $model->employee_id=$model->employeeid;
                         $model->username=$post["User"]["email"];
-                        $model->superadmin=$post["User"]["superadmin"];
+                        if(array_key_exists('superadmin',$post["User"])){
+                          $model->superadmin=$post["User"]["superadmin"];
+                        }else{
+                          $model->superadmin= 0; 
+                        }
+                        $model->phone_number=$phone;
                         $model->email=$post["User"]["email"];
                         $superadmindata=$model->superadmin;
                         $model->fullnames=$fullnames;
