@@ -59,7 +59,7 @@ AppAsset::register($this);
                              </span> <span class="text-muted text-xs block">
                                  <?PHP
 //                                  if (Yii::$app->getUser()->identity) {
-//                                      var_dump(\Yii::$app->authManager->getRolesByUser(Yii::$app->getUser()->identity->ID));
+//                                      (\Yii::$app->authManager->getRolesByUser(Yii::$app->getUser()->identity->ID));
 //                       
 //                                  }
                                 ?>
