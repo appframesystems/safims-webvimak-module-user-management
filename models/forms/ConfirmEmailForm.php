@@ -110,12 +110,12 @@ class ConfirmEmailForm extends Model
 	public function sendEmail($email,$username,$password=NULL,$message=NULL)
 	{
                  
-                        $generalsettigs= new \frontend\models\Generalsettings();
-                        $setting= $generalsettigs->find()->where(['name'=>'email'])->one();
+		$generalsettigs= new \frontend\models\Generalsettings();
+		$setting= $generalsettigs->find()->where(['name'=>'email'])->one();
                        
 
 		 Yii::$app->mailer->compose(Yii::$app->getModule('user-management')->mailerOptions['confirmEmailFormViewFile'], ['user' => $username,'password'=>$password,'message'=>$message])
-			->setFrom('safmis@sahihi.co.ke')
+			->setFrom('safims@sahihi.co.ke')
 			->setTo($email)
 			->setSubject(UserManagementModule::t('front', 'SAHIHI ACCOUNT CREATION FOR ') . ' ' . $username)
                         
