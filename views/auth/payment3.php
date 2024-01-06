@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     
  <div class="wrapper wrapper-content animated fadeIn">
        <?php
-      // var_dump($s);  exit;
+      // ($s);  exit;
        $locations="SELECT * from clients where code='$id'";
        $db=Yii::$app->db1;
         $command=$db->createCommand($locations);
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
         $db=Yii::$app->db1;
         $command=$db->createCommand($SQL);
        $sum= $command->queryOne();
-      //var_dump($sum["total"]);   exit;
+      //($sum["total"]);   exit;
         $locations="SELECT * from clients where companyname='".$invoices['company_name']."'";
        $db=Yii::$app->db1;
         $command=$db->createCommand($locations);

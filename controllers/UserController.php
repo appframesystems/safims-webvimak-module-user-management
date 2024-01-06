@@ -82,18 +82,16 @@ public function behaviors()
 	public function actionCreate()
 	{
 		$model = new User(['scenario'=>'newUser']);
-                //$model->date_joined= date('d-M-Y H:m:s');
+
                 $model->scenario='insert';
-               // $post=Yii::$app->request->post();
-              
-                // var_dump($users);   exit;
+               
                 $looggedinuser=Yii::$app->getUser()->identity->branch;
-               // var_dump($looggedinuser);  exit;
+            
           
 		if ($model->load(Yii::$app->request->post()))
 		{
-                    $post=Yii::$app->request->post();
-            //var_dump($post);  exit;
+            $post=Yii::$app->request->post();
+           
             $SQL="SELECT * FROM clients where code='".$looggedinuser."'";
        
             $db=Yii::$app->db;  
@@ -112,38 +110,34 @@ public function behaviors()
                }else{
                  $employees=Null;  
                }
-              // var_dump($employees);  exit;
+              
                    $users= new \frontend\modules\humanresource\models\Users();
                    $users=$users->find()->where(['branch'=>$looggedinuser])->count();
-                  // var_dump($users);  exit;
-                  
-                  // echo 2;  exit;    
-                  // var_dump($users);  exit;
-               
+                 
                 
                    
                     $employeeid=$post["User"]['employeeid'];
-                     //var_dump($employeeid);   exit;
+                   
                     $employee=new \frontend\modules\humanresource\models\Employee();
                      $employee= $employee->find()->where(['employee_id'=>$employeeid])->one();
                      if($employee){
                          $fullnames=$employee['name'];
+                         $phone = $employee['phone'];
                      }else{
-                     $fullnames='undefined';    
+                     $fullnames='undefined'; 
+                     $phone = 0;     
                      }
                  
-                   // var_dump($users);   exit;
+                 
                        $model->profilepic = UploadedFile::getInstance($model, 'profilepic');
-                       //$generalsettigs= new \frontend\models\Generalsettings();
-                       //$setting1= $generalsettigs->find()->where(['desc'=>'company_name'])->one();
-                     
+                          
                        if($model->profilepic){
-                           //check if directory exist
+                          
                             $path = 'uploads';
                             if(!file_exists($path)){
                             FileHelper::createDirectory($path, $mode = 0777, $recursive = true);
                             }
-                           //upload profile pic
+                      
                     $model->profilepic->saveAs('uploads/'. $model->profilepic->baseName.$model->username . '.' . $model->profilepic->extension);
                     $documenturl='uploads/'. $model->profilepic->baseName.$model->username. '.' . $model->profilepic->extension;
                     $model->profilepic=$documenturl;
@@ -157,20 +151,21 @@ public function behaviors()
                         $setting= $generalsettigs->find()->where(['name'=>'PASS_EXPIRY'])->one();
                         $model->employee_id=$model->employeeid;
                         $model->username=$post["User"]["email"];
-                        $model->superadmin=$post["User"]["superadmin"];
+                        if(array_key_exists('superadmin',$post["User"])){
+                          $model->superadmin=$post["User"]["superadmin"];
+                        }else{
+                          $model->superadmin= 0; 
+                        }
+                        $model->phone_number=$phone;
                         $model->email=$post["User"]["email"];
                         $superadmindata=$model->superadmin;
                         $model->fullnames=$fullnames;
                         $model->branch=$looggedinuser;
                        $model->password_hash= Yii::$app->getSecurity()->generatePasswordHash($password);
-                        //update this during passwordchange the same way Y-m-d H:i:s
-                        $model->passexpirydate=date('Y-m-d', strtotime("+$setting->value days"));
-                       // $model->date_joined= date('d-M-Y H:m:s');
-                        //echo $model->passexpirydate;
-                        //check if user logged in is superadmin
-                       $status=Yii::$app->getUser()->identity->dash_status;
+                         $model->passexpirydate=date('Y-m-d', strtotime("+$setting->value days"));
+                            $status=Yii::$app->getUser()->identity->dash_status;
                        $adminstatus=Yii::$app->getUser()->identity->status;
-                       //var_dump($status);  exit;
+                 
                        if($status==1){
                            $userstatus=2;
                        }else{
@@ -186,14 +181,12 @@ public function behaviors()
                     
                      $sql ="INSERT  INTO `user`(username,auth_key,password_hash,email,branch,fullnames,phone_number,employee_id,dash_status,status,superadmin) 
                     VALUES('".$model->username."','".$password."','".$model->password_hash."','".$model->email."','".$looggedinuser."','".$fullnames."','".$model->phone_number."','".$model->employeeid."','".$userstatus."','".$superadmin."','".$superadmindata."');"; 
-                    //  var_dump($sql);  exit;    
+                   
                      \Yii::$app->db1->createCommand($sql)->execute();
-                      //  exit;                       
+                                        
                         if($model->save(false)){
                             
-                            //send email
-                        
-                       //$emailer = new \webvimark\modules\UserManagement\models\forms\ConfirmEmailForm();
+                          
                        $user= new \frontend\models\User();
                        $user->sendEmail5($model->email,$model->username,$password);
                     
@@ -211,13 +204,13 @@ public function behaviors()
           public function actionCreate3()
 	{
        $model = new User(['scenario'=>'newUser']);
-                //$model->date_joined= date('d-M-Y H:m:s');
+     
       $model->scenario='insert';
       if ($model->load(Yii::$app->request->post()))
 		{
           $post=Yii::$app->request->post();
            $looggedinuser=Yii::$app->getUser()->identity->branch;
-          //var_dump(Yii::$app->request->post());  exit;
+      
           $model->username=$post["User"]["username"];
           $model->client_id=$post["User"]["client_id"];
            $model->email=$post["User"]["email"];
@@ -225,16 +218,14 @@ public function behaviors()
            $model->status=1;
            $model->branch=$looggedinuser;
            $model->profilepic = UploadedFile::getInstance($model, 'profilepic');
-          //$generalsettigs= new \frontend\models\Generalsettings();
-            //$setting1= $generalsettigs->find()->where(['desc'=>'company_name'])->one();
-                     
+                      
                        if($model->profilepic){
                            //check if directory exist
                             $path = 'uploads';
                             if(!file_exists($path)){
                             FileHelper::createDirectory($path, $mode = 0777, $recursive = true);
                             }
-                           //upload profile pic
+                         
                     $model->profilepic->saveAs('uploads/'. $model->profilepic->baseName.$model->username . '.' . $model->profilepic->extension);
                     $documenturl='uploads/'. $model->profilepic->baseName.$model->username. '.' . $model->profilepic->extension;
                     $model->profilepic=$documenturl;
@@ -246,7 +237,7 @@ public function behaviors()
             $model->password_hash= Yii::$app->getSecurity()->generatePasswordHash($password);
                             $status=Yii::$app->getUser()->identity->dash_status;
                        $adminstatus=Yii::$app->getUser()->identity->status;
-                       //var_dump($status);  exit;
+                       //($status);  exit;
                        if($status==1){
                            $userstatus=2;
                        }else{
@@ -276,7 +267,7 @@ public function behaviors()
            $model->save(false);
               $sql ="INSERT  INTO `user`(username,auth_key,password_hash,email,branch,fullnames,phone_number,employee_id,dash_status,status,firstlogin) 
                     VALUES('".$post["User"]["username"]."','".$password."','".$model->password_hash."','".$model->email."','".$looggedinuser."','".$model->username."','".$model->phone_number."','".$model->employeeid."','".$userstatus."','".$superadmin."','".$first."');"; 
-                    //  var_dump($sql);  exit;    
+                  
                      \Yii::$app->db1->createCommand($sql)->execute();
             $user= new \frontend\models\User();
              $user->sendEmail5($model->email,$model->username,$password);
@@ -293,13 +284,12 @@ public function behaviors()
         public function actionCreate2()
 	{
 		$model = new User(['scenario'=>'newUser']);
-                //$model->date_joined= date('d-M-Y H:m:s');
+                
                 $model->scenario='insert';
-               // $post=Yii::$app->request->post();
-              
-                // var_dump($users);   exit;
+            
+             
                 $looggedinuser=Yii::$app->getUser()->identity->branch;
-               // var_dump($looggedinuser);  exit;
+             
           
 		if ($model->load(Yii::$app->request->post()))
 		{
@@ -323,28 +313,24 @@ public function behaviors()
                }else{
                  $employees=Null;  
                }
-              // var_dump($employees);  exit;
+            
                    $users= new \frontend\modules\humanresource\models\Users();
                    $users=$users->find()->where(['branch'=>$looggedinuser])->count();
-                  // var_dump($users);  exit;
+              
                    if($users > $employees){
-                      // echo 3;  exit; 
+                     
                     Yii::$app->session->setFlash('error', 'The package you have subscribed has reached maximum user registration');  
                     return $this->redirect(['create2']);    
                    }
-                  // echo 2;  exit;    
-                  // var_dump($users);  exit;
-               
+                  
                 
                    
                     $fullnames=$post["User"]['fullnames'];
                    
                  
-                   // var_dump($users);   exit;
+                 
                        $model->profilepic = UploadedFile::getInstance($model, 'profilepic');
-                       //$generalsettigs= new \frontend\models\Generalsettings();
-                       //$setting1= $generalsettigs->find()->where(['desc'=>'company_name'])->one();
-                     
+                       
                        if($model->profilepic){
                            //check if directory exist
                             $path = 'uploads';
@@ -360,17 +346,16 @@ public function behaviors()
                       
                         $password= Yii::$app->security->generateRandomString(8);
                         //send email to user with the password 
-                       // $this->sendEmailtouser($model->email,$model->username, $password);
+                    
                         $generalsettigs= new \frontend\models\Generalsettings();
                         $setting= $generalsettigs->find()->where(['name'=>'PASS_EXPIRY'])->one();
-                        //$model->employee_id=$model->employeeid;
                         $model->fullnames=$fullnames;
                         $model->username=$model->email;
                         $model->branch=$looggedinuser;
                         $model->password_hash= Yii::$app->getSecurity()->generatePasswordHash($password);
                             $status=Yii::$app->getUser()->identity->dash_status;
                        $adminstatus=Yii::$app->getUser()->identity->status;
-                       //var_dump($status);  exit;
+                  
                        if($status==1){
                            $userstatus=2;
                        }else{
@@ -396,7 +381,7 @@ public function behaviors()
                         //insert user to Hr clients table
                    $sql ="INSERT  INTO `user`(username,auth_key,password_hash,email,branch,fullnames,phone_number) 
                     VALUES('".$model->email."','".$password."','".$model->password_hash."','".$model->email."','".$looggedinuser."','".$fullnames."','".$model->phone_number."');"; 
-       //  var_dump($sql);  exit;    
+        
                  \Yii::$app->db1->createCommand($sql)->execute(); 
                     if(!$sql){
                     createLog(mysql_error());
@@ -404,17 +389,10 @@ public function behaviors()
                         
                         
                         
-                       // $model->date_joined= date('d-M-Y H:m:s');
-                        //echo $model->passexpirydate;
-                        //exit;
-                       
+                         
                         if($model->save(false)){
                             
-                            //send email
-                        
-                       //$emailer = new \webvimark\modules\UserManagement\models\forms\ConfirmEmailForm();
-                        //$emailer->sendEmail($model->email,$model->username,$password);
-                    
+                     
                         Yii::$app->session->setFlash('success', 'User Created Successfully.');
 			return $this->redirect(['view',	'id' => $model->id]);
                         }
@@ -455,14 +433,9 @@ public function behaviors()
 		{
                     $post=Yii::$app->request->post();
                     $model->profilepic = UploadedFile::getInstance($model, 'profilepic');
-                   //  $generalsettigs= new \frontend\modules\meetings\models\Generalsettings();
-                   //  $setting1= $generalsettigs->find()->where(['desc'=>'company_name'])->one();
+            
                     if($model->profilepic){
-                        
-//                        var_dump($model->profilepic);
-//                        exit;
-                        
-                      //check if directory exist
+
                             $path = 'uploads';
                             if(!file_exists($path)){
                             FileHelper::createDirectory($path, $mode = 0777, $recursive = true);
@@ -472,7 +445,7 @@ public function behaviors()
                         if(file_exists($oldpic)){
                      unlink($oldpic);  
                         }
-                           //upload profile pic
+                      
                         //upload profile pic
                     $model->profilepic->saveAs('uploads/'. $model->profilepic->baseName.$model->username . '.' . $model->profilepic->extension);
                     $documenturl='uploads/'. $model->profilepic->baseName.$model->username. '.' . $model->profilepic->extension;
@@ -509,19 +482,13 @@ public function behaviors()
                 $model= $model->findOne(Yii::$app->user->identity->id);
                 
                 $oldpic=$model->profilepic;
-                //$model->date_joined= date('d-M-Y H:m:s');
+             
 		if ($model->load(Yii::$app->request->post()))
 		{
                     $post=Yii::$app->request->post();
                     $model->profilepic = UploadedFile::getInstance($model, 'profilepic');
-                   //  $generalsettigs= new \frontend\modules\meetings\models\Generalsettings();
-                   //  $setting1= $generalsettigs->find()->where(['desc'=>'company_name'])->one();
-                    if($model->profilepic){
-                        
-//                        var_dump($model->profilepic);
-//                        exit;
-                        
-                      //check if directory exist
+                        if($model->profilepic){
+  
                             $path = 'uploads';
                             if(!file_exists($path)){
                             FileHelper::createDirectory($path, $mode = 0777, $recursive = true);
@@ -531,7 +498,7 @@ public function behaviors()
                         if(file_exists($oldpic)){
                      unlink($oldpic);  
                         }
-                           //upload profile pic
+                   
                         //upload profile pic
                     $model->profilepic->saveAs('uploads/'. $model->profilepic->baseName.$model->username . '.' . $model->profilepic->extension);
                     $documenturl='uploads/'. $model->profilepic->baseName.$model->username. '.' . $model->profilepic->extension;
@@ -542,13 +509,13 @@ public function behaviors()
                       }
                        if($model->save(false)){
                          $sql = 'UPDATE user SET username="'.$model->username.'" WHERE id='.$model->id.'';
-                        // var_dump( $sql);  exit;
+                        // ( $sql);  exit;
                          \Yii::$app->db1->createCommand($sql)->execute();
                           $sql = 'UPDATE employee SET name="'.$model->fullnames.'" WHERE employee_id='.$model->employee_id.'';
-                        // var_dump( $sql);  exit;
+                        // ( $sql);  exit;
                          \Yii::$app->db1->createCommand($sql)->execute();
                          $sql = 'UPDATE employee SET name="'.$model->fullnames.'" WHERE employee_id='.$model->employee_id.'';
-                        // var_dump( $sql);  exit;
+                        // ( $sql);  exit;
                          \Yii::$app->db->createCommand($sql)->execute();
 
                             //send email

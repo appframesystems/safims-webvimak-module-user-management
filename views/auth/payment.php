@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     
  <div class="wrapper wrapper-content animated fadeIn">
        <?php
-      // var_dump($s);  exit;
+      // ($s);  exit;
       $locations="SELECT * from invoices where j_id='$id'";
        $db=Yii::$app->db1;
         $command=$db->createCommand($locations);
