@@ -95,9 +95,15 @@ use kartik\select2\Select2;
 		
 			
                 
+            <?php $listData=[0=>'False',1=>'True'];
+
+            echo $form->field($model, 'superadmin')->dropDownList(
+            $listData,
+            ['prompt'=>'Select...']);  
+            ?>  
 	        <?= $form->field($model, 'username')->textInput(['maxlength' => 255, 'autocomplete'=>'off']) ?>
                 
-                <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
             
               
             
@@ -111,8 +117,8 @@ use kartik\select2\Select2;
 					['class' => 'btn btn-success']
 				) ?>
 			<?php else: ?>
-				<?= Html::submitButton(
-					'<span class="glyphicon glyphicon-ok"></span> ' . UserManagementModule::t('back', 'Save'),
+                <?= Html::submitButton(
+					'<span class="glyphicon glyphicon-ok"></span> ' . UserManagementModule::t('back', 'Save', 'update'),
 					['class' => 'btn btn-primary']
 				) ?>
 			<?php endif; ?>
