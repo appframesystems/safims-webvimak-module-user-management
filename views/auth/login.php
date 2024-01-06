@@ -44,7 +44,9 @@ use yii\helpers\Html;
         <h3 style="text-align: center; color: #77267C;" class="panel-title"><?= UserManagementModule::t('front', 'SAFIMS') ?></h3>
 
 
+
            <img style="margin-left: 20%;margin-top: 10px;height:100px;width:200px"  src="<?= Yii::$app->getUrlManager()->getBaseUrl().'/profile/sahihi_logo.png'?>"/>
+
 
              </div>
 				<div class="panel-body">

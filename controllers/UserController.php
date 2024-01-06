@@ -404,6 +404,24 @@ public function behaviors()
                        
 		        return $this->renderIsAjax('create2', compact('model'));
 	}
+         //user  update
+         public function actionUpdate($id)
+         {
+         $model = new User();
+         $model= $model->findOne($id);
+       
+       
+         if ($model->load(Yii::$app->request->post()))
+         {
+           $post=Yii::$app->request->post();
+           $model->status = $post['User']['status'];
+           $model->superadmin = $post['User']['superadmin'];
+          $model->save(false);
+          Yii::$app->session->setFlash('success', 'User Details updated successfully');
+          return $this->redirect(['index']);
+         }
+         return $this->renderIsAjax('create', compact('model'));
+         }
         public function actionUpdateclient($id)
 	{
 		$model = new User();
