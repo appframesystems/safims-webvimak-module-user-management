@@ -74,7 +74,7 @@ AppAsset::register($this);
                         </ul>
                     </div>
                     <div style="color: #f26f21;" class="logo-element">
-                        SMART HR
+                        SAFIMS
                     </div>
                 </li>
                 
@@ -100,7 +100,7 @@ AppAsset::register($this);
                    
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <span style="color: #f26f21;" class="m-r-sm text-muted welcome-message">Welcome to  SMART HR</span>
+                    <span style="color: #f26f21;" class="m-r-sm text-muted welcome-message">Welcome to SAFIMS</span>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -220,7 +220,7 @@ yii\bootstrap\Modal::end();
                     showMethod: 'slideDown',
                     timeOut: 4000
                 };
-                toastr.success('MANAGEMENT SYSTEM', 'SMART HR');
+                toastr.success('MANAGEMENT SYSTEM', 'SAFIMS');
 
             }, 1300);
 
