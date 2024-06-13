@@ -7,7 +7,6 @@
 		}
 	},
 	"require": {
-		"webvimark/module-user-management": "^1",
 		"webvimark/components": "^1.0.0",
 		"webvimark/bootstrap-switch": "^1.0.0",
 		"ikimea/browser": "1.12.0",
