@@ -49,8 +49,10 @@ public function behaviors()
 	 */
            public function actionClients()
 	{
-         $model = new User();
-         $model=$model->find()->where(['user_type'=>2])->all();
+    $sql = "SELECT * FROM user where user_type = 2 ";
+    $db = Yii::$app->db;
+    $command = $db->createCommand($sql);
+    $model = $command->queryAll();
            return $this->render('clients', [
           
             'model'=>$model
@@ -58,8 +60,11 @@ public function behaviors()
     }     
         public function actionSuppliers()
 	{
-         $model = new User();
-         $model=$model->find()->where(['supplier'=>1])->all();
+          $sql = "SELECT * FROM user where supplier = 1 ";
+          $db = Yii::$app->db;
+          $command = $db->createCommand($sql);
+          $model = $command->queryAll();
+
            return $this->render('suppliers', [
           
             'model'=>$model
