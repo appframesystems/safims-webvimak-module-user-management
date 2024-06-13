@@ -106,15 +106,15 @@ $this->params['breadcrumbs'][] = $this->title;
 						'attribute'=>'lastloggedin',
 						'visible'=>User::hasPermission('viewdate_joined'),
 					],
-					[
-						'attribute'=>'gridRoleSearch',
-						'filter'=>ArrayHelper::map(Role::getAvailableRoles(Yii::$app->user->isSuperAdmin),'name', 'description'),
-						'value'=>function(User $model){
-								return implode(', ', ArrayHelper::map($model->roles, 'name', 'description'));
-							},
-						'format'=>'raw',
-						'visible'=>User::hasPermission('viewUserRoles'),
-					],
+					// [
+					// 	'attribute'=>'gridRoleSearch',
+					// 	'filter'=>ArrayHelper::map(Role::getAvailableRoles(Yii::$app->user->isSuperAdmin),'name', 'description'),
+					// 	'value'=>function(User $model){
+					// 			return implode(', ', ArrayHelper::map($model->roles, 'name', 'description'));
+					// 		},
+					// 	'format'=>'raw',
+					// 	'visible'=>User::hasPermission('viewUserRoles'),
+					// ],
 //					[
 //						'attribute'=>'registration_ip',
 //						'value'=>function(User $model){

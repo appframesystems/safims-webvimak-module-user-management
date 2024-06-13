@@ -17,7 +17,7 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<link rel="shortcut icon" href="<?php echo Yii::$app->request->baseUrl; ?>/images/FIDA.png" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo Yii::$app->request->baseUrl; ?>/images/SAFIMS.png" type="image/x-icon" />
 <html lang="<?= Yii::$app->language ?>">
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
@@ -30,8 +30,7 @@ AppAsset::register($this);
 
 <?php $this->beginBody() ?>
 <!DOCTYPE html>
-<!-- this application uses inspinia theme
- installed by kanyatta peter 11/29/2017-->
+
 
 <body class="">
 
@@ -42,7 +41,7 @@ AppAsset::register($this);
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element"> <span>
-                           <?= Html::img('@web/inspiniaassests/img/nmb.png', ['alt'=>'FIDA KENYA', 'class'=>'img-circle']);?>
+                           <?= Html::img('@web/inspiniaassests/img/nmb.png', ['alt'=>'SAFIMS', 'class'=>'img-circle']);?>
                              </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">
@@ -74,7 +73,7 @@ AppAsset::register($this);
                         </ul>
                     </div>
                     <div style="color: #f26f21;" class="logo-element">
-                        SMART HR
+                        SAFIMS
                     </div>
                 </li>
                 
@@ -100,7 +99,7 @@ AppAsset::register($this);
                    
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <span style="color: #f26f21;" class="m-r-sm text-muted welcome-message">Welcome to  SMART HR</span>
+                    <span style="color: #f26f21;" class="m-r-sm text-muted welcome-message">Welcome to SAFIMS</span>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -220,7 +219,7 @@ yii\bootstrap\Modal::end();
                     showMethod: 'slideDown',
                     timeOut: 4000
                 };
-                toastr.success('MANAGEMENT SYSTEM', 'SMART HR');
+                toastr.success('MANAGEMENT SYSTEM', 'SAFIMS');
 
             }, 1300);
 
