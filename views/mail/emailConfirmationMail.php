@@ -33,7 +33,7 @@ $resetLink =$setting->value; //'http://'.Yii::$app->urlManager->createUrl(['/use
       
     <?php } }?>
     Cheers,<br>
-    FIDA ERP TEAM!
+    SAFIMS ERP TEAM!
     
     </div>
 </div>
